@@ -11,7 +11,7 @@ type CalendarEvent = {
     createdAt: string;
 };
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-const DAYS = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+const DAYS = ['Sun', 'M', 'T', 'W', 'T', 'F', 'S'];
 const CATEGORY_CLASS: Record<string, string> = { normal: 'event-normal', fire: 'event-fire', water: 'event-water', electric: 'event-electric', grass: 'event-grass' };
 function dateKey(d: Date) { return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; }
 function monthCells(y: number, m: number) { const first = new Date(y, m, 1), start = new Date(y, m, 1 - first.getDay()); return Array.from({ length: 42 }, (_, i) => { const d = new Date(start); d.setDate(start.getDate() + i); return d; }); }
