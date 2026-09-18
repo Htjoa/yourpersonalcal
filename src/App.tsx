@@ -11,17 +11,17 @@ type CalendarEvent = {
     createdAt: string;
 };
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-const DAYS = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+const DAYS = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 const CATEGORY_CLASS: Record<string, string> = { normal: 'event-normal', fire: 'event-fire', water: 'event-water', electric: 'event-electric', grass: 'event-grass' };
 function dateKey(d: Date) { return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; }
 function monthCells(y: number, m: number) { const first = new Date(y, m, 1), start = new Date(y, m, 1 - first.getDay()); return Array.from({ length: 42 }, (_, i) => { const d = new Date(start); d.setDate(start.getDate() + i); return d; }); }
 export function StudioTemplate() {
-    // The local calendar is available without account authentication.
+    const scope = "local";
     const initial = new Date();
     const [cursor, setCursor] = useState(initial), [selected, setSelected] = useState(initial), [events, setEvents] = useState<CalendarEvent[]>([]), [loading, setLoading] = useState(true);
     const [title, setTitle] = useState(''), [time, setTime] = useState('09:00'), [category, setCategory] = useState('normal'), [assistant, setAssistant] = useState(''), [assistantStatus, setAssistantStatus] = useState(''), [busy, setBusy] = useState(false);
     const cells = useMemo(() => monthCells(cursor.getFullYear(), cursor.getMonth()), [cursor]);
-    const signedIn = true;
+    const signedIn = scope != null && scope !== "guest";
     const refresh = async () => { if (!signedIn) {
         setEvents([]);
         setLoading(false);
@@ -101,4 +101,3 @@ export function StudioTemplate() {
     </aside>
   </div>;
 }
-
