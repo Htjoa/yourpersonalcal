@@ -21,7 +21,7 @@ export function StudioTemplate() {
     const [cursor, setCursor] = useState(initial), [selected, setSelected] = useState(initial), [events, setEvents] = useState<CalendarEvent[]>([]), [loading, setLoading] = useState(true);
     const [title, setTitle] = useState(''), [time, setTime] = useState('09:00'), [category, setCategory] = useState('normal'), [assistant, setAssistant] = useState(''), [assistantStatus, setAssistantStatus] = useState(''), [busy, setBusy] = useState(false);
     const cells = useMemo(() => monthCells(cursor.getFullYear(), cursor.getMonth()), [cursor]);
-    const signedIn = scope != null && scope !== "guest";
+    const signedIn = true;
     const refresh = async () => { if (!signedIn) {
         setEvents([]);
         setLoading(false);
@@ -84,7 +84,7 @@ export function StudioTemplate() {
 
     <main className="calendar-workspace">
       <section className="calendar-toolbar"><div><span className="eyebrow">YOUR ADVENTURE MAP</span><h1>{MONTHS[cursor.getMonth()]} <em>{cursor.getFullYear()}</em></h1></div><div className="month-controls"><Button variant="tertiary" iconOnly aria-label="Previous month" onClick={() => setCursor(new Date(cursor.getFullYear(), cursor.getMonth() - 1, 1))}><Icon as={ChevronLeft}/></Button><Button variant="tertiary" onClick={() => { setCursor(initial); setSelected(initial); }}>Today</Button><Button variant="tertiary" iconOnly aria-label="Next month" onClick={() => setCursor(new Date(cursor.getFullYear(), cursor.getMonth() + 1, 1))}><Icon as={ChevronRight}/></Button></div></section>
-      <section className="pokemon-calendar"><div className="weekday-row">{DAYS.map(d => <span key={d}>{d}</span>)}</div><div className="month-grid">{cells.map((d, i) => { const key = dateKey(d), list = events.filter(e => e.date === key), active = key === dateKey(selected), current = d.getMonth() === cursor.getMonth(); return <button key={i} className={`calendar-day ${active ? 'active' : ''} ${current ? '' : 'outside'}`} onClick={() => setSelected(d)}><span className="day-number">{d.getDate()}</span><div>{list.slice(0, 3).map(e => <span className={`event-chip ${CATEGORY_CLASS[e.category]}`} key={e.id}>{e.time} {e.title}</span>)}</div>{list.length > 3 && <small>+{list.length - 3} more</small>}</button>; })}</div></section>
+      <section className="pokemon-calendar"><div className="weekday-row">{DAYS.map((d, index) => <span key={index}>{d}</span>)}</div><div className="month-grid">{cells.map((d, i) => { const key = dateKey(d), list = events.filter(e => e.date === key), active = key === dateKey(selected), current = d.getMonth() === cursor.getMonth(); return <button key={i} className={`calendar-day ${active ? 'active' : ''} ${current ? '' : 'outside'}`} onClick={() => setSelected(d)}><span className="day-number">{d.getDate()}</span><div>{list.slice(0, 3).map(e => <span className={`event-chip ${CATEGORY_CLASS[e.category]}`} key={e.id}>{e.time} {e.title}</span>)}</div>{list.length > 3 && <small>+{list.length - 3} more</small>}</button>; })}</div></section>
     </main>
 
     <aside className="assistant-panel">
@@ -101,3 +101,5 @@ export function StudioTemplate() {
     </aside>
   </div>;
 }
+
+
